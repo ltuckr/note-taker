@@ -16,6 +16,5 @@ const PORT = process.env.PORT || 8080;
 
 // Listener
 app.listen(PORT, () => {
-    console.log("Note taker is listening for input on port: " + PORT);
-
-});
+    console.log(`App is listening on port ${PORT}!`);
+  });

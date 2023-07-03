@@ -8,13 +8,8 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'notes.html'));
 });
 
-// Catch-all route
+// * catch
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// App listener
-app.listen(PORT, () => {
-    console.log("Note taker is listening for input on port: " + PORT);
-
-});
