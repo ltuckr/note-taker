@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const db = require('./db/db.json')
+const uuid = require("uuid");
 
 //Routing functions
 app.get('/api/notes', (req, res) => {
@@ -14,8 +15,8 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {
     const newNote = req.body;
     // ID each note
-    newNote.id = uuidv4();
-    db.push(newNote);
+    newNote.id = uuid()
+    db.push(newNote)
     // Update the JSON db with new data
     fs.writeFileSync('./db/db.json', JSON.stringify(db));
     res.json(db);
