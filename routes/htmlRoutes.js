@@ -15,5 +15,6 @@ app.get('*', (req, res) => {
 
 // App listener
 app.listen(PORT, () => {
-    console.log(`Note taker is listening on ${PORT}`);
+    console.log(`Note taker is listening on port: ${PORT}`);
+
 });
