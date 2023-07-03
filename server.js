@@ -1,4 +1,4 @@
-//Sets up Express connectivity
+// Sets up Express connectivity
 const express = require("express");
 const app = express();
 
@@ -16,5 +16,5 @@ const PORT = process.env.PORT || 8080;
 
 // Listener
 app.listen(PORT, () => {
-    console.log("Note taker is listening for input on port": ${PORT}`);
-  });
+    console.log(`Note taker is listening for input on port: ${PORT}`);
+});
