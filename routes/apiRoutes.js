@@ -31,7 +31,7 @@ app.delete("/api/notes/:id", (req, res) => {
         const filteredNotes = notesDB.filter(values => values.id !== noteId);
         fs.writeFile(path.join(__dirname, "db/db.json"), JSON.stringify(filteredNotes), "utf-8", err => {
             if (err) throw err;
-            console.log("The note has been removed.");
+            console.log("Item has been successfully deleted.");
             res.end();
         });
     });
