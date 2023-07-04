@@ -15,6 +15,4 @@ app.use(express.json());
 const PORT = process.env.PORT || 8080;
 
 // Listener
-app.listen(PORT, () => {
-    console.log(`App is listening on port ${PORT}!`);
-  });
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
