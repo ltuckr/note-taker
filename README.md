@@ -1,2 +1,2 @@
 # note-taker
-A user-customizable note creater that utilizes express.js
+A user-customizable note creator that utilizes express.js
