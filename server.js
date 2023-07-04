@@ -1,37 +1,23 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
+const path = require('path');
 
-// Require routes
-const apiRoutes = require("./apiRoutes");
-const htmlRoutes = require("./htmlRoutes");
-
-// Express middleware
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static('public'));
 
-// Use routes
-app.use("/api", apiRoutes);
-app.use("/", htmlRoutes);
+// Routes
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
-// HTML 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+app.use('/api/notes', apiRoutes);
+app.use('/', htmlRoutes);
 
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'notes.html'));
-});
-
-// Catch-all route
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Port info
+// Port
 const PORT = process.env.PORT || 8080;
 
-// Listener
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
-
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}...`);
+});
