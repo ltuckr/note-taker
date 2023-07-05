@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const db = require('./db/db.json')
+const db = require('../db/db.json');
 const uuid = require("uuid");
 const express = require('express');
 const router = express.Router();
@@ -8,8 +8,8 @@ const router = express.Router();
 //Routing functions
 
 // GET notes
-router.get('/', (req, res) => {
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+router.get('/notes', (req, res) => {
+    fs.readFile('../db/db.json', 'utf8', (err, data) => {
       if (err) throw err;
       const notes = JSON.parse(data);
       res.json(notes);
@@ -17,17 +17,17 @@ router.get('/', (req, res) => {
   });
   
   // POST notes
-  router.post('/', (req, res) => {
+  router.post('/notes', (req, res) => {
     const newNote = req.body;
     newNote.id = uuid.v4();
   
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    fs.readFile('../db/db.json', 'utf8', (err, data) => {
       if (err) throw err;
   
       const notes = JSON.parse(data);
       notes.push(newNote);
   
-      fs.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
+      fs.writeFile('../db/db.json', JSON.stringify(notes), (err) => {
         if (err) throw err;
         res.json(notes);
       });
@@ -38,13 +38,13 @@ router.get('/', (req, res) => {
   router.delete('/:id', (req, res) => {
     const noteId = req.params.id;
   
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    fs.readFile('../db/db.json', 'utf8', (err, data) => {
       if (err) throw err;
   
       let notes = JSON.parse(data);
       notes = notes.filter((note) => note.id !== noteId);
   
-      fs.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
+      fs.writeFile('../db/db.json', JSON.stringify(notes), (err) => {
         if (err) throw err;
         res.json(notes);
       });
