@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const dbFilePath = path.join(__dirname, '..', 'db', 'db.json');
+const db = require('../db/db.json');
 const uuid = require('uuid');
 const express = require('express');
 const router = express.Router();
