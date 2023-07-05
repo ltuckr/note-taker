@@ -16,12 +16,13 @@ router.get('/', (req, res) => {
 
 // POST notes
 router.post('/', (req, res) => {
+  const newNote = req.body;
+  newNote.id = uuid.v4();
+
   fs.readFile(dbFilePath, 'utf8', (err, data) => {
     if (err) throw err;
 
     const notes = JSON.parse(data);
-    const newNote = req.body;
-    newNote.id = uuid.v4();
     notes.push(newNote);
 
     fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => {
