@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const dbFilePath = path.join(__dirname, '..', 'db', 'db.json');
-const db = require(dbFilePath);
 const uuid = require('uuid');
 const express = require('express');
 const router = express.Router();
@@ -17,18 +16,17 @@ router.get('/', (req, res) => {
 
 // POST notes
 router.post('/', (req, res) => {
-  const newNote = req.body;
-  newNote.id = uuid.v4();
-
   fs.readFile(dbFilePath, 'utf8', (err, data) => {
     if (err) throw err;
 
     const notes = JSON.parse(data);
+    const newNote = req.body;
+    newNote.id = uuid.v4();
     notes.push(newNote);
 
     fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => {
       if (err) throw err;
-      res.json(notes);
+      res.json(newNote);
     });
   });
 });
