@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const dbFilePath = path.join(__dirname, '../../note-taker/db/db.json'); // Update the file path accordingly
+const dbFilePath = path.join(__dirname, '..', '..', 'note-taker', 'db', 'db.json');
 const uuid = require('uuid');
 const express = require('express');
 const router = express.Router();
