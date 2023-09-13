@@ -7,13 +7,12 @@ const express = require('express');
 const router = express.Router();
 
 // GET notes
-router.get('/', (req, res) => {
+router.get('/notes', (req, res) => {
   console.log('Received GET request to /api/notes');
   fs.readFile(dbFilePath, 'utf8', (err, data) => { 
     if (err) {
-      console.error(err); // Log any errors
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
+      console.error('Error reading database file:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
 
     const notes = JSON.parse(data);
@@ -22,7 +21,7 @@ router.get('/', (req, res) => {
 });
 
 // POST notes
-router.post('/', (req, res) => {
+router.post('/notes', (req, res) => {
   console.log('Received POST request to /api/notes');
   
   // Create a new note with a unique ID
@@ -55,27 +54,24 @@ router.post('/', (req, res) => {
   });
 });
 
-
 // DELETE notes/:id
-router.delete('/:id', (req, res) => {
+router.delete('/notes/:id', (req, res) => {
   console.log('Received DELETE request to /api/notes/:id');
   const noteId = req.params.id;
 
   fs.readFile(dbFilePath, 'utf8', (err, data) => {
     if (err) {
-      console.error(err); // Log any errors
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
+      console.error('Error reading database file:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
 
     let notes = JSON.parse(data);
     notes = notes.filter((note) => note.id !== noteId);
 
-    fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => { 
-      if (err) {
-        console.error(err); // Log any errors
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
+    fs.writeFile(dbFilePath, JSON.stringify(notes), (writeErr) => { 
+      if (writeErr) {
+        console.error('Error writing to database file:', writeErr);
+        return res.status(500).json({ error: 'Internal Server Error' });
       }
       res.json(notes);
     });
