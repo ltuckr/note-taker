@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const db = path.join(__dirname, '..', 'db', 'db.json'); // Rename to 'db'
+const dbFilePath = path.join(__dirname, '..', 'db', 'db.json');
 
 const uuid = require('uuid');
 const express = require('express');
@@ -8,8 +8,14 @@ const router = express.Router();
 
 // GET notes
 router.get('/', (req, res) => {
-  fs.readFile(db, 'utf8', (err, data) => { // Update 'dbFilePath' to 'db'
-    if (err) throw err;
+  console.log('Received GET request to /api/notes');
+  fs.readFile(dbFilePath, 'utf8', (err, data) => { 
+    if (err) {
+      console.error(err); // Log any errors
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
     const notes = JSON.parse(data);
     res.json(notes);
   });
@@ -17,17 +23,26 @@ router.get('/', (req, res) => {
 
 // POST notes
 router.post('/', (req, res) => {
+  console.log('Received POST request to /api/notes');
   const newNote = req.body;
   newNote.id = uuid.v4();
 
-  fs.readFile(db, 'utf8', (err, data) => { // Update 'dbFilePath' to 'db'
-    if (err) throw err;
+  fs.readFile(dbFilePath, 'utf8', (err, data) => { 
+    if (err) {
+      console.error(err); // Log any errors
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
 
     const notes = JSON.parse(data);
     notes.push(newNote);
 
-    fs.writeFile(db, JSON.stringify(notes), (err) => { // Update 'dbFilePath' to 'db'
-      if (err) throw err;
+    fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => { 
+      if (err) {
+        console.error(err); // Log any errors
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
       res.json(newNote);
     });
   });
@@ -35,16 +50,25 @@ router.post('/', (req, res) => {
 
 // DELETE notes/:id
 router.delete('/:id', (req, res) => {
+  console.log('Received DELETE request to /api/notes/:id');
   const noteId = req.params.id;
 
-  fs.readFile(db, 'utf8', (err, data) => { // Update 'dbFilePath' to 'db'
-    if (err) throw err;
+  fs.readFile(dbFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err); // Log any errors
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
 
     let notes = JSON.parse(data);
     notes = notes.filter((note) => note.id !== noteId);
 
-    fs.writeFile(db, JSON.stringify(notes), (err) => { // Update 'dbFilePath' to 'db'
-      if (err) throw err;
+    fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => { 
+      if (err) {
+        console.error(err); // Log any errors
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
       res.json(notes);
     });
   });
