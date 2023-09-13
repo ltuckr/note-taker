@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
-const dbFilePath = path.join(__dirname, '..', 'db', 'db.json');
+const db = path.join(__dirname, '..', 'db', 'db.json'); // Rename to 'db'
+
 const uuid = require('uuid');
 const express = require('express');
 const router = express.Router();
 
 // GET notes
 router.get('/', (req, res) => {
-  fs.readFile(dbFilePath, 'utf8', (err, data) => {
+  fs.readFile(db, 'utf8', (err, data) => { // Update 'dbFilePath' to 'db'
     if (err) throw err;
     const notes = JSON.parse(data);
     res.json(notes);
@@ -19,13 +20,13 @@ router.post('/', (req, res) => {
   const newNote = req.body;
   newNote.id = uuid.v4();
 
-  fs.readFile(dbFilePath, 'utf8', (err, data) => {
+  fs.readFile(db, 'utf8', (err, data) => { // Update 'dbFilePath' to 'db'
     if (err) throw err;
 
     const notes = JSON.parse(data);
     notes.push(newNote);
 
-    fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => {
+    fs.writeFile(db, JSON.stringify(notes), (err) => { // Update 'dbFilePath' to 'db'
       if (err) throw err;
       res.json(newNote);
     });
@@ -36,13 +37,13 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const noteId = req.params.id;
 
-  fs.readFile(dbFilePath, 'utf8', (err, data) => {
+  fs.readFile(db, 'utf8', (err, data) => { // Update 'dbFilePath' to 'db'
     if (err) throw err;
 
     let notes = JSON.parse(data);
     notes = notes.filter((note) => note.id !== noteId);
 
-    fs.writeFile(dbFilePath, JSON.stringify(notes), (err) => {
+    fs.writeFile(db, JSON.stringify(notes), (err) => { // Update 'dbFilePath' to 'db'
       if (err) throw err;
       res.json(notes);
     });
